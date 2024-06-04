@@ -35,18 +35,22 @@ Route::middleware([
     })->name('dashboard');
 });
 
-//Create , edit, delete roles
-Route::get('role', [RoleController::class, 'roles'])->middleware(['role:root'])->name('roles');
-Route::post('role', [RoleController::class, 'storeRole'])->middleware(['role:root'])->name('storeRole');
-Route::put('role/{role}', [RoleController::class, 'updateRole'])->middleware(['role:root'])->name('updateRole');
-Route::delete('role/{role}', [RoleController::class, 'destroyRole'])->middleware(['role:root'])->name('destroyRole');
 
-// Assign roles to users
-Route::get('usersRole', [RoleController::class, 'users'])->middleware(['role:root'])->name('usersRole');
-Route::post('users/{users}', [RoleController::class, 'updateUserRole'])->middleware(['role:root'])->name('updateUserRole');//Assign user role
+Route::middleware(['auth:sanctum', 'role:root'])->group(function(){
+    //Create , edit, delete roles
+        Route::get('role', [RoleController::class, 'roles'])->middleware(['role:root'])->name('roles');
+        Route::post('role', [RoleController::class, 'storeRole'])->middleware(['role:root'])->name('storeRole');
+        Route::put('role/{role}', [RoleController::class, 'updateRole'])->middleware(['role:root'])->name('updateRole');
+        Route::delete('role/{role}', [RoleController::class, 'destroyRole'])->middleware(['role:root'])->name('destroyRole');
 
+        // Assign roles to users
+        Route::get('usersRole', [RoleController::class, 'users'])->middleware(['role:root'])->name('usersRole');
+        Route::post('users/{users}', [RoleController::class, 'updateUserRole'])->middleware(['role:root'])->name('updateUserRole');//Assign user role
 
-Route::get('permissions',[PermissionController::class, 'index'])->middleware(['role:root'])->name('permissions');
-Route::post('createPermission',[PermissionController::class, 'store'])->middleware(['role:root'])->name('createPermission');
-Route::put('permissions/{permissions}',[PermissionController::class, 'update'])->middleware(['role:root'])->name('updatePermission');
-Route::delete('permissions/{permissions}',[PermissionController::class, 'destroy'])->middleware(['role:root'])->name('destroyPermission');
+        // Create , edit, delete permission
+        Route::get('permissions',[PermissionController::class, 'index'])->middleware(['role:root'])->name('permissions');
+        Route::post('createPermission',[PermissionController::class, 'store'])->middleware(['role:root'])->name('createPermission');
+        Route::put('permissions/{permissions}',[PermissionController::class, 'update'])->middleware(['role:root'])->name('updatePermission');
+        Route::delete('permissions/{permissions}',[PermissionController::class, 'destroy'])->middleware(['role:root'])->name('destroyPermission');
+});
+// Route::get('role', [RoleController::class, 'roles'])->middleware(['permission:role-edit'])->name('roles');

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\Gate;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -20,8 +20,14 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
+
     public function boot(): void
     {
-        //
+        // Grant Super-Admin access to root user    
+        Gate::before(function ($user, $ability){
+            if($user->hasRole('root')){
+                return true;
+            }
+        });
     }
 }
