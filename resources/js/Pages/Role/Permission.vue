@@ -110,6 +110,7 @@
 </template>
 
 <script setup>
+import QuasarLayout from "@/Layouts/QuasarLayout.vue";
 import { ref } from "vue";
 import { useForm, router, Link } from "@inertiajs/vue3";
 import { useQuasar } from "quasar";

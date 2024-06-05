@@ -1,12 +1,11 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import Welcome from "@/Components/Welcome.vue";
-// import Link from "@inertiajs/vue3";
-import { Head, Link } from "@inertiajs/vue3";
+import QuasarLayout from "@/Layouts/QuasarLayout.vue";
+
+import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <QuasarLayout title="Dashboard">
         <template #header class="flex">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
@@ -31,9 +30,9 @@ import { Head, Link } from "@inertiajs/vue3";
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
+                    <h4>Dashboard</h4>
                 </div>
             </div>
         </div>
-    </AppLayout>
+    </QuasarLayout>
 </template>

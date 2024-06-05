@@ -1,58 +1,73 @@
 <template>
-    <AppLayout title="Permission">
+    <QuasarLayout>
         <!-- {{props.roles}} -->
-        <h4>Roles and permission</h4>
-        <div class="flex mb-4">
-            <!-- create a dialog -->
-            <q-btn label="Create Role" color="primary" @click="creatPrompt()" />
-        </div>
-        <!-- Tabel -->
-        <div class="overflow-x-auto">
-            <table
-                class="w-full text-left bg-white border border-gray-300 divide-y shadow-sm table-auto rounded-xl"
-            >
-                <thead>
-                    <tr class="bg-gray-500/5">
-                        <th class="px-4">ID</th>
-                        <th>Name</th>
-                        <th>Permission</th>
-                        <th>Created at</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    <tr v-for="(role, index) in roles" :key="role.id">
-                        <td class="px-4 py-2">{{ index + 1 }}</td>
-                        <td>{{ role.name }}</td>
-                        <td>
-                            <span
-                                v-for="permission in role.permissions"
-                                :key="permission.id"
-                                class="px-2 py-1 text-xs text-blue-700 bg-blue-300 rounded-xl"
-                            >
-                                {{ permission.name }}
-                            </span>
-                        </td>
-                        <td>{{ role.created_at }}</td>
-                        <td class="divide-x-2">
-                            <q-btn
-                                color="primary"
-                                class="mr-2"
-                                label="Edit"
-                                @click="editPromptModel(role)"
-                            />
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <h4>Roles and permission</h4>
+                    <div class="flex mb-4">
+                        <!-- create a dialog -->
+                        <q-btn
+                            label="Create Role"
+                            color="primary"
+                            @click="creatPrompt()"
+                        />
+                    </div>
+                    <!-- Tabel -->
+                    <div class="overflow-x-auto">
+                        <table
+                            class="w-full text-left bg-white border border-gray-300 divide-y shadow-sm table-auto rounded-xl"
+                        >
+                            <thead>
+                                <tr class="bg-gray-500/5">
+                                    <th class="px-4">ID</th>
+                                    <th>Name</th>
+                                    <th>Permission</th>
+                                    <th>Created at</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
 
-                            <q-btn
-                                label="Delete"
-                                color="primary"
-                                @click="destroy(role.id)"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <tbody>
+                                <tr
+                                    v-for="(role, index) in roles"
+                                    :key="role.id"
+                                >
+                                    <td class="px-4 py-2">{{ index + 1 }}</td>
+                                    <td>{{ role.name }}</td>
+                                    <td>
+                                        <span
+                                            v-for="permission in role.permissions"
+                                            :key="permission.id"
+                                            class="px-2 py-1 text-xs text-blue-700 bg-blue-300 rounded-xl"
+                                        >
+                                            {{ permission.name }}
+                                        </span>
+                                    </td>
+                                    <td>{{ role.created_at }}</td>
+                                    <td class="divide-x-2">
+                                        <q-btn
+                                            color="primary"
+                                            class="mr-2"
+                                            label="Edit"
+                                            @click="editPromptModel(role)"
+                                        />
+
+                                        <q-btn
+                                            label="Delete"
+                                            color="primary"
+                                            @click="destroy(role.id)"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <!-- Create Dialog -->
         <q-dialog v-model="prompt" persistent>
             <q-card style="min-width: 350px">
@@ -90,11 +105,11 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
-    </AppLayout>
+    </QuasarLayout>
 </template>
 
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import QuasarLayout from "@/Layouts/QuasarLayout.vue";
 import { ref } from "vue";
 import { useForm, router, Link } from "@inertiajs/vue3";
 import { useQuasar } from "quasar";
