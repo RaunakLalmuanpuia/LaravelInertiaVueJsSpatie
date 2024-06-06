@@ -211,8 +211,8 @@ Route::middleware([
 });
 
 
-Route::middleware(['auth:sanctum', 'role:root'])->group(function(){
-    sleep(1);
+Route::middleware(['auth', 'role:root'])->group(function(){
+    // sleep(2);
     //Create , edit, delete roles
         Route::get('role', [RoleController::class, 'roles'])->middleware(['role:root'])->name('roles');
         Route::post('role', [RoleController::class, 'storeRole'])->middleware(['role:root'])->name('storeRole');

@@ -48,6 +48,11 @@
                 </tr>
             </tbody>
         </table>
+
+        <div style="margin-top: 700px;">
+            <p>The current time is {{ time }}</p>
+            <Link :href="route('permissions')" class="text-blue-500" preserve-scroll>Refresh</Link>
+        </div>
         <!-- Create Dialog -->
         <q-dialog v-model="prompt" persistent>
             <q-card style="min-width: 350px">
@@ -112,7 +117,7 @@
 <script setup>
 import QuasarLayout from "@/Layouts/QuasarLayout.vue";
 import { ref } from "vue";
-import { useForm, router, Link } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { useQuasar } from "quasar";
 import AppLayout from "@/Layouts/AppLayout.vue";
 const $q = useQuasar();
@@ -125,6 +130,7 @@ const selectedPermission = ref(null);
 const props = defineProps({
     permissions: Object,
     roles: Object,
+    time:String,
 });
 
 const form = useForm({

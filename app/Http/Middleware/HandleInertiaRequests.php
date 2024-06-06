@@ -41,13 +41,23 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => $request->session()->get('success')
             ],
-            'roles'=>$request->user()?->roles()?->pluck('name'),
+            // 'roles'=>$request->user()?->roles()?->pluck('name'),
 
             'user' => $request->user() ? [
                 'id' => $request->user()->id,
                 'name' => $request->user()->name,
                 'email' => $request->user()->email,
-            ] : null
+                'role' => $request->user()->roles()?->pluck('name'),
+            ] : null,
+
+            // 'auth' => [
+            //     'user' => $request->user() ? [
+            //         'id' => $request->user()->id,
+            //         'name' => $request->user()->name,
+            //         'email' => $request->user()->email,
+            //         'role' => $request->user()->roles()?->pluck('name'),
+            //     ] : null,
+            // ]
         ]);
     }
 }

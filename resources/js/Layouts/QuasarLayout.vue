@@ -1,6 +1,6 @@
 <template>
     <q-layout view="hHh lpR lFf">
-        <q-header elevated class="bg-primary text-white" height-hint="98">
+        <q-header elevated class="text-white bg-primary" height-hint="98">
             <q-toolbar>
                 <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
@@ -21,13 +21,15 @@
                     :href="route('usersRole')"
                     as="button"
                     method="get"
-                    :class="{ 'font-bold underline': true }"
-                    ><q-route-tab @click="showLoading" label="User"
+                    :class="{ 'font-bold underline': $page.url.startsWith('/usersRole')}"
+                    ><q-route-tab  label="User"
                 /></Link>
                 <Link :href="route('roles')"
+                :class="{ 'font-bold underline': $page.component === 'Role/Role'}"
                     ><q-route-tab label="Roles"
                 /></Link>
                 <Link :href="route('permissions')"
+                :class="{ 'font-bold underline': $page.component === 'Role/Permission' }"
                     ><q-route-tab label="Permissions"
                 /></Link>
             </q-tabs>
@@ -86,7 +88,7 @@
                 src="https://cdn.quasar.dev/img/material.png"
                 style="height: 150px"
             >
-                <div class="absolute-bottom bg-transparent">
+                <div class="bg-transparent absolute-bottom">
                     <q-avatar size="56px" class="q-mb-sm">
                         <img
                             :src="profilePhoto"
@@ -105,7 +107,7 @@
             <slot />
         </q-page-container>
 
-        <q-footer elevated class="bg-grey-8 text-white">
+        <q-footer elevated class="text-white bg-grey-8">
             <q-toolbar>
                 <q-toolbar-title>
                     <q-avatar>
@@ -123,7 +125,7 @@
 </template>
 
 <script setup>
-import { Link } from "@inertiajs/vue3";
+// import { Link } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import { usePage } from "@inertiajs/vue3";

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use PDO;
+
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -12,12 +12,16 @@ class PermissionController extends Controller
 {
     //
     public function index(){
+        
+        $time = now()->toTimeString();
+        
         $permissions = Permission::with('roles')->get();
 
         $roles = Role::pluck('name', 'id');
         return Inertia::render('Role/Permission',[
             'permissions' => $permissions,
             'roles' => $roles,
+            'time' => $time
         ]);
     }
     public function store(Request $request)

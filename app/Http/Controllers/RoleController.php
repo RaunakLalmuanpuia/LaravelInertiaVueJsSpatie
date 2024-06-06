@@ -63,10 +63,21 @@ class RoleController extends Controller
 
      public function destroyRole(Role $role)
      {
-         // dd($role);
+        //  dd($role);
          $role->delete();
          return redirect()->route('roles');
      }
+
+
+    // public function destroyRole( $id)
+    // {
+    //     // dd($role);
+    //     Role::where('id', $id)->firstOrFail()->delete();
+    //     // $role->where('id', $id)->first()->delete();
+       
+    //     return redirect()->route('roles');
+    // }
+    
      
      // Apply roles to users
      
