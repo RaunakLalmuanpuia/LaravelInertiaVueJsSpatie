@@ -188,8 +188,28 @@ const onUpdate = () => {
 //     console.log(role);
 // }
 function destroy(id) {
-    if (confirm("Delete Role")) {
+    $q.dialog({
+        dark: true,
+        title: "Confirm",
+        message: "Are you sure you want to delete the Role?",
+    }).onOk(() => {
+        // console.log('OK')
         form.delete(route("destroyRole", id));
-    }
+        $q.notify({
+            message: "Role Deleted Succesfully",
+            color: "red",
+            position: "bottom",
+            actions: [{ label: "Dismiss", color: "white" }],
+        });
+    });
+    // if (confirm("Delete Role")) {
+    //     form.delete(route("destroyRole", id));
+    //     $q.notify({
+    //         message: "Role Deleted Succesfully",
+    //         color: "red",
+    //         position: "bottom",
+    //         actions: [{ label: "Dismiss", color: "white" }],
+    //     });
+    // }
 }
 </script>
