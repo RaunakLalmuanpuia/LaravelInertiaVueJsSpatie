@@ -55,8 +55,8 @@ class PermissionController extends Controller
         return redirect()->route('permissions');
 
     }
-    public function destroy($id, Permission $permission){
-        // dd($id);
+    public function destroy($id,  Permission $permission){
+        // dd($permission);
         $permission->where('id', $id)->first()->delete();
         return redirect()->route('permissions');
     }

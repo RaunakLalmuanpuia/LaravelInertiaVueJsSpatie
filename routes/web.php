@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\QuizApiController;
 use App\Http\Controllers\PermissionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -229,4 +230,11 @@ Route::middleware(['auth', 'role:root'])->group(function(){
         Route::put('permissions/{permissions}',[PermissionController::class, 'update'])->middleware(['role:root'])->name('updatePermission');
         Route::delete('permissions/{permissions}',[PermissionController::class, 'destroy'])->middleware(['role:root'])->name('destroyPermission');
 });
+
+
 // Route::get('role', [RoleController::class, 'roles'])->middleware(['permission:role-edit'])->name('roles');
+
+
+// Fetch Data (Quiz [https://quizapi.io] ) from api and store in the database
+Route::get('/fetchquiz', [QuizApiController::class, 'fetchInsert'])->name('fetch_quiz');
+Route::get('/quiz', [QuizApiController::class, 'show'])->name('quiz_show');

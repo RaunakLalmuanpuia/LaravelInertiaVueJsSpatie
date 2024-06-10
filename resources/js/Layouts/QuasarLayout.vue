@@ -21,15 +21,15 @@
                     :href="route('usersRole')"
                     as="button"
                     method="get"
-                    :class="{ 'font-bold underline': $page.url.startsWith('/usersRole')}"
+                    :class="{  'bg-blue-900 underline': $page.url.startsWith('/usersRole')}"
                     ><q-route-tab  label="User"
                 /></Link>
                 <Link :href="route('roles')"
-                :class="{ 'font-bold underline': $page.component === 'Role/Role'}"
+                :class="{ 'bg-blue-900 font-bold underline': $page.component === 'Role/Role'}"
                     ><q-route-tab label="Roles"
                 /></Link>
                 <Link :href="route('permissions')"
-                :class="{ 'font-bold underline': $page.component === 'Role/Permission' }"
+                :class="{ 'bg-blue-900 font-bold underline': $page.component === 'Role/Permission' }"
                     ><q-route-tab label="Permissions"
                 /></Link>
             </q-tabs>
@@ -45,20 +45,33 @@
                 "
             >
                 <q-list padding>
-                    <Link :href="route('profile.show')">
-                        <q-item clickable v-ripple>
+
+                    <Link :href="route('quiz_show')">
+                        <q-item clickable v-ripple :class="{ 'bg-blue-500': $page.url.startsWith('/quiz')}">
                             <q-item-section avatar>
-                                <q-icon name="inbox" />
+                                <q-icon name="quiz" />
+                            </q-item-section>
+
+                            <q-item-section> Quiz </q-item-section>
+                        </q-item>
+                    </Link>
+                    
+                    <Link :href="route('profile.show')">
+                        <q-item clickable v-ripple :class="{ 'bg-blue-500': $page.component === 'Profile/Show'}">
+                            <q-item-section avatar>
+                                <q-icon name="manage_accounts" />
                             </q-item-section>
 
                             <q-item-section> Profile </q-item-section>
                         </q-item>
                     </Link>
+
+                    
                     <!-- route("logout") -->
                     <Link :href="route('logout')" as="button" method="post">
-                        <q-item active clickable v-ripple>
+                        <q-item clickable v-ripple>
                             <q-item-section avatar>
-                                <q-icon name="star" />
+                                <q-icon name="logout" />
                             </q-item-section>
 
                             <q-item-section> Logout </q-item-section>

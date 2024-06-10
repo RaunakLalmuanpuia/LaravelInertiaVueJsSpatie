@@ -1,5 +1,6 @@
 <template>
     <AppLayout title="Permission">
+        <Head title="Permission"/>
         <h4>Permissions</h4>
 
         <div class="flex mb-4" style="align-items: end">
@@ -41,7 +42,7 @@
                             <q-btn
                                 color="red"
                                 label="Delete"
-                                @click="destroy(permission)"
+                                @click="destroy(permission.id)"
                             ></q-btn>
                         </div>
                     </td>

@@ -1,10 +1,10 @@
 <template>
-    <QuasarLayout>
-        <!-- {{props.roles}} -->
 
+        <!-- {{props.roles}} -->
+        <Head title="Roles"/>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                     <h4>Roles and permission</h4>
                     <div class="flex mb-4">
                         <!-- create a dialog -->
@@ -105,7 +105,7 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
-    </QuasarLayout>
+
 </template>
 
 <script setup>
@@ -120,6 +120,10 @@ const edit = ref("");
 const prompt = ref(false);
 const editPrompt = ref(false);
 const selectedRole = ref(null);
+
+defineOptions({
+    layout:QuasarLayout
+})
 
 const props = defineProps({
     roles: Object,
