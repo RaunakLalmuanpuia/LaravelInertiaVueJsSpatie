@@ -1,68 +1,65 @@
 <template>
-    <QuasarLayout>
-        <Head title="Users"/>
-        <div>
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-gray-300 shadow-xl sm:rounded-lg"
-                >
-                    <div class="flex justify-between mt-4">
-                        <h3>User Roles</h3>
-                        <input
-                            v-model="search"
-                            type="text"
-                            placeholder="Search..."
-                            class="px-2 mr-2 border rounded-lg"
-                        />
-                    </div>
+    <Head title="Users" />
+    <div>
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-gray-300 shadow-xl sm:rounded-lg">
+                <div class="flex justify-between mt-4">
+                    <h3>User Roles</h3>
+                    <input
+                        v-model="search"
+                        type="text"
+                        placeholder="Search..."
+                        class="px-2 mr-2 border rounded-lg"
+                    />
+                </div>
 
-                    <!-- {{ users }} -->
-                    <!-- {{ roles }} -->
-                    <div class="mt-4 overflow-x-auto">
-                        <table
-                            class="w-full text-left bg-white border border-gray-300 divide-y shadow-sm table-auto rounded-xl"
-                        >
-                            <thead>
-                                <tr class="bg-gray-500/5">
-                                    <th class="px-4 py-2">ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                    <th>Permission</th>
-                                    <!-- <th>Created At</th> -->
-                                    <th class="px-4"></th>
-                                </tr>
-                            </thead>
-                            <!-- {{users.data  }} -->
-                            <tbody class="divide-y whitespace-nowrap">
-                                <tr v-for="user in users.data" :key="user.id">
-                                    <td class="px-4 py-3">{{ user.id }}</td>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>
+                <!-- {{ users }} -->
+                <!-- {{ roles }} -->
+                <div class="mt-4 overflow-x-auto">
+                    <table
+                        class="w-full text-left bg-white border border-gray-300 divide-y shadow-sm table-auto rounded-xl"
+                    >
+                        <thead>
+                            <tr class="bg-gray-500/5">
+                                <th class="px-4 py-2">ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Roles</th>
+                                <th>Permission</th>
+                                <!-- <th>Created At</th> -->
+                                <th class="px-4"></th>
+                            </tr>
+                        </thead>
+                        <!-- {{users.data  }} -->
+                        <tbody class="divide-y whitespace-nowrap">
+                            <tr v-for="user in users.data" :key="user.id">
+                                <td class="px-4 py-3">{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <span
+                                        v-for="role in user.roles"
+                                        :key="role.id"
+                                        class="px-2 py-1 text-xs text-blue-700 bg-blue-300 rounded-xl"
+                                    >
+                                        {{ role.name }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span
+                                        v-for="role in user.roles"
+                                        :key="role.id"
+                                    >
                                         <span
-                                            v-for="role in user.roles"
-                                            :key="role.id"
+                                            v-for="permission in role.permissions"
+                                            :key="permission.id"
                                             class="px-2 py-1 text-xs text-blue-700 bg-blue-300 rounded-xl"
                                         >
-                                            {{ role.name }}
+                                            {{ permission.name }}
                                         </span>
-                                    </td>
-                                    <td>
-                                        <span
-                                            v-for="role in user.roles"
-                                            :key="role.id"
-                                        >
-                                            <span
-                                                v-for="permission in role.permissions"
-                                                :key="permission.id"
-                                                class="px-2 py-1 text-xs text-blue-700 bg-blue-300 rounded-xl"
-                                            >
-                                                {{ permission.name }}
-                                            </span>
-                                        </span>
-                                    </td>
-                                    <!-- <td>
+                                    </span>
+                                </td>
+                                <!-- <td>
            <span
              v-for="role in user.roles"
              :key="role.id"
@@ -70,89 +67,85 @@
              {{ role.created_at }}
            </span>
          </td> -->
-                                    <!-- <td>{{ user.created_at }}</td> -->
-                                    <td class="px-2">
-                                        <q-btn
-                                            color="primary"
-                                            class="mr-2"
-                                            label="Edit"
-                                            @click="editPromptModel(user)"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr v-if="users.length === 0">
-                                    <td class="p-4" colspan="4">No Records</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <!-- <td>{{ user.created_at }}</td> -->
+                                <td class="px-2">
+                                    <q-btn
+                                        color="primary"
+                                        class="mr-2"
+                                        label="Edit"
+                                        @click="editPromptModel(user)"
+                                    />
+                                </td>
+                            </tr>
+                            <tr v-if="users.length === 0">
+                                <td class="p-4" colspan="4">No Records</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                        <div class="flex justify-center mt-4">
-                            <div class="flex gap-1">
-                                <Link
-                                    v-for="(link, index) in users.links"
-                                    :key="index"
-                                    class="px-4 py-2 rounded-md"
-                                    :href="link.url || ''"
-                                    :class="{
-                                        'bg-indigo-500 dark:bg-indigo-800 text-gray-300':
-                                            link.active,
-                                    }"
-                                    v-html="link.label"
-                                    :preserve-state="true"
-                                    :preserve-scroll="true"
-                                />
-                            </div>
+                    <div class="flex justify-center mt-4">
+                        <div class="flex gap-1">
+                            <Link
+                                v-for="(link, index) in users.links"
+                                :key="index"
+                                class="px-4 py-2 rounded-md"
+                                :href="link.url || ''"
+                                :class="{
+                                    'bg-indigo-500 dark:bg-indigo-800 text-gray-300':
+                                        link.active,
+                                }"
+                                v-html="link.label"
+                                :preserve-state="true"
+                                :preserve-scroll="true"
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <q-dialog v-model="editPrompt">
-            <q-card>
-                <q-card-section class="q-pa-md">
-                    <!-- Your edit form -->
-                    <form class="space-y-2" @submit.prevent="onSubmit">
-                        <div class="text-base font-medium text-gray-700">
-                            Name:
-                            <span class="font-bold">{{
-                                selectedUser.name
-                            }}</span>
-                        </div>
+    <q-dialog v-model="editPrompt">
+        <q-card>
+            <q-card-section class="q-pa-md">
+                <!-- Your edit form -->
+                <form class="space-y-2" @submit.prevent="onSubmit">
+                    <div class="text-base font-medium text-gray-700">
+                        Name:
+                        <span class="font-bold">{{ selectedUser.name }}</span>
+                    </div>
 
-                        <div class="space-y-2">
-                            <label
-                                class="block text-base font-medium text-gray-700"
-                                >Roles</label
-                            >
-                            <div class="space-x-2">
-                                <q-checkbox
-                                    v-for="role in options"
-                                    :key="role.value"
-                                    v-model="updateForm.roles"
-                                    :val="role.label"
-                                    :label="role.label"
-                                />
-                                <!-- <p>{{ updateForm.roles }}</p> -->
-                            </div>
-                            <!-- <q-checkbox v-model="updateForm.confirm" /> -->
-                            <q-toggle
-                                v-model="updateForm.confirm"
-                                label="Confirm"
-                            />
-                        </div>
-
-                        <button
-                            class="px-4 py-2 text-xs font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-700"
-                            type="submit"
+                    <div class="space-y-2">
+                        <label class="block text-base font-medium text-gray-700"
+                            >Roles</label
                         >
-                            SAVE
-                        </button>
-                    </form>
-                </q-card-section>
-            </q-card>
-        </q-dialog>
-    </QuasarLayout>
+                        <div class="space-x-2">
+                            <q-checkbox
+                                v-for="role in options"
+                                :key="role.value"
+                                v-model="updateForm.roles"
+                                :val="role.label"
+                                :label="role.label"
+                            />
+                            <!-- <p>{{ updateForm.roles }}</p> -->
+                        </div>
+                        <!-- <q-checkbox v-model="updateForm.confirm" /> -->
+                        <q-toggle
+                            v-model="updateForm.confirm"
+                            label="Confirm"
+                        />
+                    </div>
+
+                    <button
+                        class="px-4 py-2 text-xs font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-700"
+                        type="submit"
+                    >
+                        SAVE
+                    </button>
+                </form>
+            </q-card-section>
+        </q-card>
+    </q-dialog>
 </template>
 
 <script setup>
@@ -166,8 +159,8 @@ import { useQuasar } from "quasar";
 const $q = useQuasar();
 
 defineOptions({
-    layout: QuasarLayout
-})
+    layout: QuasarLayout,
+});
 const props = defineProps({
     users: Object,
     roles: Object,

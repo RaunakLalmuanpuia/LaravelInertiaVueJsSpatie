@@ -35,8 +35,8 @@
                             showResults &&
                             !answer.correct &&
                             selectedAnswer === answer.value,
-                        'bg-zinc-700': !showResults,
-                        'dark:bg-zinc-700': !showResults,
+                        'bg-gray-200': !showResults,
+                        'dark:bg-gray-200': !showResults,
                     }"
                     class="block p-3 rounded-lg cursor-pointer"
                 >
@@ -70,33 +70,29 @@
         </div>
     </div>
 </template>
-
 <script setup>
 import QuasarLayout from "@/Layouts/QuasarLayout.vue";
 import { ref, computed } from "vue";
 import { useQuasar } from "quasar";
 const $q = useQuasar();
-const props = defineProps({
-    question: Array,
-});
-
 defineOptions({
     layout: QuasarLayout,
 });
 
-const isDarkMode = ref(false);
+const props = defineProps({
+    question: Array,
+});
+
 const currentQuestionIndex = ref(0);
 const selectedAnswer = ref(null);
 const showResults = ref(false);
 const correctAnswerCount = ref(0);
 const showNotification = ref(false);
-const toggleTheme = () => {
-    isDarkMode.value = !isDarkMode.value;
-};
 
 const currentQuestion = computed(
-    () => props.question[currentQuestionIndex.value]
+    () => props.question[currentQuestionIndex.value] // Starts with the first index
 );
+// console.log(currentQuestion.value);
 
 const answers = computed(() =>
     [
@@ -130,48 +126,48 @@ const answers = computed(() =>
             : null,
     ].filter(Boolean)
 );
+console.log(answers.value);
 
 const submitAnswer = () => {
+    //if no answer is selected
     if (!selectedAnswer.value) {
         showNotification.value = true;
         return;
     }
-
     showNotification.value = false;
+    // Check if the results are currently being shown
     if (showResults.value) {
-        // Move to the next question or restart quiz
+        // If there are more questions left to answer
         if (currentQuestionIndex.value < props.question.length - 1) {
+            // Move to the next question
             currentQuestionIndex.value++;
+            // Reset the selected answer for the next question
             selectedAnswer.value = null;
             showResults.value = false;
         } else {
+            // If no more questions are left, show the completion dialog
             $q.dialog({
                 dark: true,
                 title: "Congratulations",
                 message: `Quiz Completed! You answered ${correctAnswerCount.value} questions correctly.`,
             });
-            // alert(`Quiz Completed! You answered ${correctAnswerCount.value} questions correctly.`);
+            // Reset the quiz state
             currentQuestionIndex.value = 0;
             selectedAnswer.value = null;
             showResults.value = false;
             correctAnswerCount.value = 0;
         }
     } else {
-        // Show results and update correct answer count
+        // Show the results for the current question
         showResults.value = true;
+        // Find the correct answer from the list of answers
         const correctAnswer = answers.value.find((answer) => answer.correct);
+        // If the selected answer is correct
+
         if (selectedAnswer.value === correctAnswer.value) {
+            // Increment the count of correct answers
             correctAnswerCount.value++;
         }
     }
 };
 </script>
-
-<style scoped>
-.bg-green-500 {
-    background-color: green !important;
-}
-.bg-red-500 {
-    background-color: red !important;
-}
-</style>
