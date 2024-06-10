@@ -24,6 +24,7 @@
             <input type="radio" name="answer" :value="answer.value" v-model="selectedAnswer" class="mr-2" :disabled="showResults"> {{ answer.label }}
           </label>
         </div>
+        <div v-if="showNotification" class="mt-2 text-red-500">Please select an answer before submitting.</div>
         <button @click="submitAnswer" class="w-full p-3 mt-4 text-white bg-purple-600 rounded-lg">
           {{ showResults && currentQuestionIndex.value === props.question.length - 1 ? 'Restart Quiz' : (showResults ? 'Next Question' : 'Submit') }}
         </button>
@@ -49,7 +50,7 @@
   const selectedAnswer = ref(null);
   const showResults = ref(false);
   const correctAnswerCount = ref(0);
-  
+  const showNotification = ref(false);
   const toggleTheme = () => {
     isDarkMode.value = !isDarkMode.value;
   };
@@ -64,6 +65,13 @@
   ].filter(Boolean));
   
   const submitAnswer = () => {
+
+    if (!selectedAnswer.value) {
+    showNotification.value = true;
+    return;
+  }
+
+  showNotification.value = false;
     if (showResults.value) {
       // Move to the next question or restart quiz
       if (currentQuestionIndex.value < props.question.length - 1) {
