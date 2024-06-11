@@ -242,4 +242,4 @@ Route::get('/quiz', [QuizApiController::class, 'show'])->name('quiz_show');
 Route::get('/getQuiz', [QuizApiController::class, 'getQuiz'])->name('getQuiz');
 
 
-Route::get('/index_quiz', [QuizApiController::class, 'index'])->name('quiz_show');
+Route::get('/index_quiz', [QuizApiController::class, 'index'])->name('quiz_index');

@@ -46,7 +46,7 @@
             >
                 <q-list padding>
 
-                    <Link :href="route('quiz_show')">
+                    <Link :href="route('quiz_index')">
                         <q-item clickable v-ripple :class="{ 'bg-blue-500': $page.url.startsWith('/quiz')}">
                             <q-item-section avatar>
                                 <q-icon name="quiz" />

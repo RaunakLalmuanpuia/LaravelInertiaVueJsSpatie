@@ -1,62 +1,57 @@
 <template>
     <div
-        class="min-h-screen flex items-center justify-center bg-gray-900 text-white"
+        class="flex items-center justify-center min-h-screen text-white bg-gray-900"
     >
-        <div class="w-full max-w-2xl p-8 rounded-lg bg-gray-800 shadow-lg">
-            <div class="flex justify-between items-center mb-8">
+        <div class="w-full max-w-2xl p-8 bg-gray-800 rounded-lg shadow-lg">
+            <div class="flex items-center justify-between mb-8">
                 <h1 class="text-3xl font-bold">
-                    Welcome to the <br />
-                    Frontend Quiz!
+                    Welcome to the Quiz!
                 </h1>
-                <button @click="toggleTheme" class="focus:outline-none">
-                    <span v-if="isDarkMode" class="text-yellow-500 text-2xl"
-                        >☀️</span
-                    >
-                    <span v-else class="text-white text-2xl">🌙</span>
-                </button>
+               
             </div>
             <p class="mb-6 text-gray-400">Pick a subject to get started.</p>
-            <div class="space-y-4">
-                <button
-                    class="flex items-center bg-gray-700 p-4 rounded-lg w-full hover:bg-gray-600 transition"
+            <div class="space-y-4" v-for="(category, index) in category"
+            :key="index">
+                <button @click="selectCategory(category)"
+                    class="flex items-center w-full p-4 mb-3 transition bg-gray-700 rounded-lg hover:bg-gray-600"
                 >
                     <img
-                        src="path/to/html-icon.png"
+                        src="https://rainsaxfrontend-mentor-projects.github.io/frontend-quiz-app/assets/images/icon-html.svg"
                         alt="HTML"
                         class="w-8 h-8 mr-4"
                     />
-                    <span>HTML</span>
+                    <span class="text-3xl font-bold">{{ category }}</span>
                 </button>
-                <button
-                    class="flex items-center bg-gray-700 p-4 rounded-lg w-full hover:bg-gray-600 transition"
+                <!-- <button
+                    class="flex items-center w-full p-4 transition bg-gray-700 rounded-lg hover:bg-gray-600"
                 >
                     <img
-                        src="path/to/css-icon.png"
+                        src="https://rainsaxfrontend-mentor-projects.github.io/frontend-quiz-app/assets/images/icon-css.svg"
                         alt="CSS"
                         class="w-8 h-8 mr-4"
                     />
-                    <span>CSS</span>
+                    <span class="text-3xl font-bold">CSS</span>
                 </button>
                 <button
-                    class="flex items-center bg-gray-700 p-4 rounded-lg w-full hover:bg-gray-600 transition"
+                    class="flex items-center w-full p-4 transition bg-gray-700 rounded-lg hover:bg-gray-600"
                 >
                     <img
-                        src="path/to/js-icon.png"
+                        src="https://rainsaxfrontend-mentor-projects.github.io/frontend-quiz-app/assets/images/icon-js.svg"
                         alt="Javascript"
                         class="w-8 h-8 mr-4"
                     />
-                    <span>Javascript</span>
+                    <span class="text-3xl font-bold">Javascript</span>
                 </button>
                 <button
-                    class="flex items-center bg-gray-700 p-4 rounded-lg w-full hover:bg-gray-600 transition"
+                    class="flex items-center w-full p-4 transition bg-gray-700 rounded-lg hover:bg-gray-600"
                 >
                     <img
-                        src="path/to/accessibility-icon.png"
+                        src="https://rainsaxfrontend-mentor-projects.github.io/frontend-quiz-app/assets/images/icon-accessibility.svg"
                         alt="Accessibility"
                         class="w-8 h-8 mr-4"
                     />
-                    <span>Accessibility</span>
-                </button>
+                    <span class="text-3xl font-bold ">Accessibility</span>
+                </button> -->
             </div>
         </div>
     </div>
@@ -64,13 +59,25 @@
 
 <script setup>
 import { ref } from "vue";
+import QuasarLayout from "@/Layouts/QuasarLayout.vue";
+import { useForm } from "@inertiajs/vue3";
+defineOptions({
+    layout: QuasarLayout
+})
+const form = useForm({
+    name:""
+})
+const props = defineProps({
+    category:Object
+})
 
-// Theme toggling logic
-const isDarkMode = ref(false);
 
-const toggleTheme = () => {
-    isDarkMode.value = !isDarkMode.value;
-};
+const selectCategory = (category) => {
+    form.name = category
+    console.log(form.name)
+    // updateForm.post(route("updateUserRole", selectedUser.value));
+    form.get(route('quiz_show'));
+}
 </script>
 
 <style>

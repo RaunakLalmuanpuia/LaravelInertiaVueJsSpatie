@@ -40,9 +40,16 @@ class QuizApiController extends Controller
         return("Data Fetched from Api and saved in database");
 
     }
-    public function show() {
-        $question = Question::all();
-        return Inertia::render('Quiz',[
+    public function index() {
+        $category = Question::distinct()->pluck('category');
+        return Inertia::render('Quiz/Index',[
+            'category' => $category
+        ]);
+    }
+    public function show(Request $request) {
+        // dd($request);
+        $question = Question::where('category', $request->name)->inRandomOrder()->get();
+        return Inertia::render('Quiz/Quiz',[
             'question' => $question
         ]);
     }
@@ -76,8 +83,5 @@ class QuizApiController extends Controller
 
     }
 
-    public function index() {
-      
-        return Inertia::render('Quiz/Index');
-    }
+   
 }

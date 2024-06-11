@@ -1,22 +1,33 @@
 <template>
     <Head title="Quiz" />
     <!-- <h4>Quizzes</h4> -->
-    <div class="flex items-center justify-center min-h-screen bg-zinc-300">
+    
+
+
+    <div class="flex items-center justify-center min-h-screen bg-gray-800">
+       
         <div
             class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg dark:bg-zinc-800"
         >
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center">
+            
+        <div class="flex items-center justify-between mb-4">
+           
+            <div class="flex items-center">
                     <h1
                         class="text-lg font-semibold text-black-900 dark:text-zinc-900"
                     >
                         {{ currentQuestion.category }}
                     </h1>
                 </div>
-                <button @click="toggleTheme" class="focus:outline-none">
+                <h1
+                        class="text-lg font-semibold text-blue-900 dark:text-zinc-900"
+                    >
+                        {{ currentQuestion.difficulty }}
+                    </h1>
+                <!-- <button @click="toggleTheme" class="focus:outline-none">
                     <span v-if="isDarkMode" class="text-yellow-500">☀️</span>
                     <span v-else class="text-zinc-500">🌙</span>
-                </button>
+                </button> -->
             </div>
             <p class="mb-2 text-zinc-700 dark:text-zinc-700">
                 Question {{ currentQuestionIndex + 1 }} of
@@ -35,8 +46,8 @@
                             showResults &&
                             !answer.correct &&
                             selectedAnswer === answer.value,
-                        'bg-zinc-700': !showResults,
-                        'dark:bg-zinc-700': !showResults,
+                        'bg-gray-200': !showResults,
+                        'dark:bg-gray-200': !showResults,
                     }"
                     class="block p-3 rounded-lg cursor-pointer"
                 >
@@ -70,33 +81,30 @@
         </div>
     </div>
 </template>
-
 <script setup>
 import QuasarLayout from "@/Layouts/QuasarLayout.vue";
 import { ref, computed } from "vue";
 import { useQuasar } from "quasar";
+import { router } from "@inertiajs/vue3";
 const $q = useQuasar();
-const props = defineProps({
-    question: Array,
-});
-
 defineOptions({
     layout: QuasarLayout,
 });
 
-const isDarkMode = ref(false);
+const props = defineProps({
+    question: Array,
+});
+
 const currentQuestionIndex = ref(0);
 const selectedAnswer = ref(null);
 const showResults = ref(false);
 const correctAnswerCount = ref(0);
 const showNotification = ref(false);
-const toggleTheme = () => {
-    isDarkMode.value = !isDarkMode.value;
-};
 
 const currentQuestion = computed(
-    () => props.question[currentQuestionIndex.value]
+    () => props.question[currentQuestionIndex.value] // Starts with the first index
 );
+// console.log(currentQuestion.value);
 
 const answers = computed(() =>
     [
@@ -130,48 +138,113 @@ const answers = computed(() =>
             : null,
     ].filter(Boolean)
 );
+console.log(answers.value);
 
 const submitAnswer = () => {
+    //if no answer is selected
     if (!selectedAnswer.value) {
         showNotification.value = true;
         return;
     }
-
     showNotification.value = false;
+    // Check if the results are currently being shown
     if (showResults.value) {
-        // Move to the next question or restart quiz
+        // If there are more questions left to answer
         if (currentQuestionIndex.value < props.question.length - 1) {
+            // Move to the next question
             currentQuestionIndex.value++;
+            // Reset the selected answer for the next question
             selectedAnswer.value = null;
             showResults.value = false;
         } else {
+            // If no more questions are left, show the completion dialog
             $q.dialog({
                 dark: true,
                 title: "Congratulations",
                 message: `Quiz Completed! You answered ${correctAnswerCount.value} questions correctly.`,
-            });
-            // alert(`Quiz Completed! You answered ${correctAnswerCount.value} questions correctly.`);
+            }).onOk(() => {
+                // console.log('OK')
+                router.get(route("quiz_index"));
+            })
+            // Reset the quiz state
             currentQuestionIndex.value = 0;
             selectedAnswer.value = null;
             showResults.value = false;
             correctAnswerCount.value = 0;
+            
         }
     } else {
-        // Show results and update correct answer count
+        // Show the results for the current question
         showResults.value = true;
+        // Find the correct answer from the list of answers
         const correctAnswer = answers.value.find((answer) => answer.correct);
+        // If the selected answer is correct
+
         if (selectedAnswer.value === correctAnswer.value) {
+            // Increment the count of correct answers
             correctAnswerCount.value++;
         }
     }
 };
 </script>
-
 <style scoped>
-.bg-green-500 {
-    background-color: green !important;
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 10px;
+  color: white;
+  text-shadow: 2px 2px rgb(116, 116, 116);
+  text-transform: uppercase;
+  cursor: pointer;
+  border: solid 2px black;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 17px;
+  background-color: hsl(49deg 98% 60%);
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
 }
-.bg-red-500 {
-    background-color: red !important;
+
+button:active {
+  transform: scale(0.9);
+  transition: all 100ms ease;
 }
+
+button svg {
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.play {
+  transition: all 0.5s ease;
+  transition-delay: 300ms;
+}
+
+button:hover svg {
+  transform: scale(3) translate(50%);
+}
+
+.now {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+button:hover .now {
+  transform: translateX(10px);
+  transition-delay: 300ms;
+}
+
+button:hover .play {
+  transform: translateX(200%);
+  transition-delay: 300ms;
+}
+
 </style>
