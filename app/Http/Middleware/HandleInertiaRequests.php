@@ -50,6 +50,8 @@ class HandleInertiaRequests extends Middleware
                 'role' => $request->user()->roles()?->pluck('name'),
             ] : null,
 
+            'roles' => $request->user()?->getRoleNames(),
+
             // 'auth' => [
             //     'user' => $request->user() ? [
             //         'id' => $request->user()->id,

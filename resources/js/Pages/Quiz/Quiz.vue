@@ -187,7 +187,9 @@ const submitAnswer = () => {
     }
 };
 </script>
-<style scoped>
+
+
+<!-- <style scoped>
 
 button {
   display: flex;
@@ -247,4 +249,4 @@ button:hover .play {
   transition-delay: 300ms;
 }
 
-</style>
+</style> -->

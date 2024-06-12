@@ -236,10 +236,12 @@ Route::middleware(['auth', 'role:root'])->group(function(){
 
 
 // Fetch Data (Quiz [https://quizapi.io] ) from api and store in the database
-Route::get('/fetchquiz', [QuizApiController::class, 'fetchInsert'])->name('fetch_quiz');
-Route::get('/quiz', [QuizApiController::class, 'show'])->name('quiz_show');
+Route::get('/fetchquiz', [QuizApiController::class, 'fetchInsert'])->middleware(['role:root'])->name('fetch_quiz');
+Route::get('/quiz', [QuizApiController::class, 'show'])->middleware(['role:student|root'])->name('quiz_show');
 
-Route::get('/getQuiz', [QuizApiController::class, 'getQuiz'])->name('getQuiz');
+Route::get('/getQuiz', [QuizApiController::class, 'getQuiz'])->middleware(['role:root'])->name('getQuiz');
 
 
-Route::get('/index_quiz', [QuizApiController::class, 'index'])->name('quiz_index');
+// Route::get('/index_quiz', [QuizApiController::class, 'index'])->middleware(['role:student|root'])->name('quiz_index');
+
+Route::get('/index_quiz', [QuizApiController::class, 'index'])->middleware(['role:student|root'])->name('quiz_index');
